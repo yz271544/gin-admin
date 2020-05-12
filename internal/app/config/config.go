@@ -66,7 +66,6 @@ type Config struct {
 	Log          Log
 	LogGormHook  LogGormHook
 	LogMongoHook LogMongoHook
-	JWTAuth      JWTAuth
 	Monitor      Monitor
 	RateLimiter  RateLimiter
 	CORS         CORS
@@ -129,18 +128,6 @@ type LogGormHook struct {
 // LogMongoHook 日志mongo钩子配置
 type LogMongoHook struct {
 	Collection string
-}
-
-// JWTAuth 用户认证
-type JWTAuth struct {
-	Enable        bool
-	SigningMethod string
-	SigningKey    string
-	Expired       int
-	Store         string
-	FilePath      string
-	RedisDB       int
-	RedisPrefix   string
 }
 
 // HTTP http配置参数
