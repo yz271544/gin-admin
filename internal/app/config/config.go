@@ -63,15 +63,11 @@ type Config struct {
 	Swagger      bool
 	PrintConfig  bool
 	HTTP         HTTP
-	Menu         Menu
-	Casbin       Casbin
 	Log          Log
 	LogGormHook  LogGormHook
 	LogMongoHook LogMongoHook
-	Root         Root
 	JWTAuth      JWTAuth
 	Monitor      Monitor
-	Captcha      Captcha
 	RateLimiter  RateLimiter
 	CORS         CORS
 	GZIP         GZIP
@@ -93,21 +89,6 @@ type Config struct {
 // IsDebugMode 是否是debug模式
 func (c *Config) IsDebugMode() bool {
 	return c.RunMode == "debug"
-}
-
-// Menu 菜单配置参数
-type Menu struct {
-	Enable bool
-	Data   string
-}
-
-// Casbin casbin配置参数
-type Casbin struct {
-	Enable           bool
-	Debug            bool
-	Model            string
-	AutoLoad         bool
-	AutoLoadInternal int
 }
 
 // LogHook 日志钩子
@@ -150,13 +131,6 @@ type LogMongoHook struct {
 	Collection string
 }
 
-// Root root用户
-type Root struct {
-	UserName string
-	Password string
-	RealName string
-}
-
 // JWTAuth 用户认证
 type JWTAuth struct {
 	Enable        bool
@@ -183,16 +157,6 @@ type Monitor struct {
 	Enable    bool
 	Addr      string
 	ConfigDir string
-}
-
-// Captcha 图形验证码配置参数
-type Captcha struct {
-	Store       string
-	Length      int
-	Width       int
-	Height      int
-	RedisDB     int
-	RedisPrefix string
 }
 
 // RateLimiter 请求频率限制配置参数

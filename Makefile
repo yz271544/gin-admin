@@ -13,7 +13,7 @@ build:
 	@go build -ldflags "-w -s" -o $(SERVER_BIN) ./cmd/${APP}
 
 start: 
-	go run cmd/${APP}/main.go web -c ./configs/config.toml -m ./configs/model.conf --menu ./configs/menu.yaml
+	go run cmd/${APP}/main.go web -c ./configs/config.toml
 
 swagger:
 	swag init --generalInfo ./internal/app/swagger.go --output ./internal/app/swagger

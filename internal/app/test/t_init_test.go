@@ -16,7 +16,6 @@ import (
 
 const (
 	configFile = "../../../configs/config.toml"
-	modelFile  = "../../../configs/model.conf"
 	apiPrefix  = "/api/"
 )
 
@@ -28,9 +27,6 @@ func init() {
 
 	config.C.RunMode = "test"
 	config.C.Log.Level = 2
-	config.C.JWTAuth.Enable = false
-	config.C.Casbin.Enable = false
-	config.C.Casbin.Model = modelFile
 	config.C.Gorm.Debug = false
 	config.C.Gorm.DBType = "sqlite3"
 

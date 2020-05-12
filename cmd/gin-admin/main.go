@@ -21,7 +21,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "gin-admin"
 	app.Version = VERSION
-	app.Usage = "RBAC scaffolding based on Gin + Gorm/Mongo + Casbin + Wire."
+	app.Usage = "Basic development framework based on gin + gorm/mongo + wire."
 	app.Commands = []*cli.Command{
 		newWebCmd(ctx),
 	}
@@ -43,16 +43,6 @@ func newWebCmd(ctx context.Context) *cli.Command {
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:     "model",
-				Aliases:  []string{"m"},
-				Usage:    "casbin的访问控制模型(.conf)",
-				Required: true,
-			},
-			&cli.StringFlag{
-				Name:  "menu",
-				Usage: "初始化菜单数据配置文件(.yaml)",
-			},
-			&cli.StringFlag{
 				Name:  "www",
 				Usage: "静态站点目录",
 			},
@@ -60,9 +50,7 @@ func newWebCmd(ctx context.Context) *cli.Command {
 		Action: func(c *cli.Context) error {
 			return app.Run(ctx,
 				app.SetConfigFile(c.String("conf")),
-				app.SetModelFile(c.String("model")),
 				app.SetWWWDir(c.String("www")),
-				app.SetMenuFile(c.String("menu")),
 				app.SetVersion(VERSION))
 		},
 	}

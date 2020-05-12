@@ -11,7 +11,7 @@ package app
 
 // @title gin-admin
 // @version 6.2.0
-// @description RBAC scaffolding based on GIN + GORM/MONGO + CASBIN + WIRE.
+// @description Basic development framework based on gin + gorm/mongo + wire.
 // @schemes http https
 // @basePath /
 // @contact.name LyricTian

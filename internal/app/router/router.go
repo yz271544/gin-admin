@@ -2,8 +2,6 @@ package router
 
 import (
 	"github.com/LyricTian/gin-admin/v6/internal/app/api"
-	"github.com/LyricTian/gin-admin/v6/pkg/auth"
-	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )
@@ -21,13 +19,7 @@ type IRouter interface {
 
 // Router 路由管理器
 type Router struct {
-	Auth           auth.Auther
-	CasbinEnforcer *casbin.SyncedEnforcer
-	DemoAPI        *api.Demo
-	LoginAPI       *api.Login
-	MenuAPI        *api.Menu
-	RoleAPI        *api.Role
-	UserAPI        *api.User
+	DemoAPI *api.Demo
 }
 
 // Register 注册路由

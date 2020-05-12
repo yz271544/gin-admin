@@ -11,13 +11,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/LyricTian/captcha"
-	"github.com/LyricTian/captcha/store"
 	"github.com/LyricTian/gin-admin/v6/internal/app/config"
 	"github.com/LyricTian/gin-admin/v6/internal/app/injector"
 	"github.com/LyricTian/gin-admin/v6/internal/app/iutil"
 	"github.com/LyricTian/gin-admin/v6/pkg/logger"
-	"github.com/go-redis/redis"
 	"github.com/google/gops/agent"
 
 	// 引入swagger
@@ -26,8 +23,6 @@ import (
 
 type options struct {
 	ConfigFile string
-	ModelFile  string
-	MenuFile   string
 	WWWDir     string
 	Version    string
 }
@@ -42,24 +37,10 @@ func SetConfigFile(s string) Option {
 	}
 }
 
-// SetModelFile 设定casbin模型配置文件
-func SetModelFile(s string) Option {
-	return func(o *options) {
-		o.ModelFile = s
-	}
-}
-
 // SetWWWDir 设定静态站点目录
 func SetWWWDir(s string) Option {
 	return func(o *options) {
 		o.WWWDir = s
-	}
-}
-
-// SetMenuFile 设定菜单数据文件
-func SetMenuFile(s string) Option {
-	return func(o *options) {
-		o.MenuFile = s
 	}
 }
 
@@ -78,14 +59,8 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 	}
 
 	config.MustLoad(o.ConfigFile)
-	if v := o.ModelFile; v != "" {
-		config.C.Casbin.Model = v
-	}
 	if v := o.WWWDir; v != "" {
 		config.C.WWW = v
-	}
-	if v := o.MenuFile; v != "" {
-		config.C.Menu.Data = v
 	}
 	config.PrintWithJSON()
 
@@ -100,9 +75,6 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 	// 初始化服务运行监控
 	InitMonitor(ctx)
 
-	// 初始化图形验证码
-	InitCaptcha()
-
 	// Initialize unique id
 	iutil.InitID()
 
@@ -110,14 +82,6 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 	injector, injectorCleanFunc, err := injector.BuildInjector()
 	if err != nil {
 		return nil, err
-	}
-
-	// 初始化菜单数据
-	if config.C.Menu.Enable && config.C.Menu.Data != "" {
-		err = injector.MenuBll.InitData(ctx, config.C.Menu.Data)
-		if err != nil {
-			return nil, err
-		}
 	}
 
 	// 初始化HTTP服务
@@ -128,19 +92,6 @@ func Init(ctx context.Context, opts ...Option) (func(), error) {
 		injectorCleanFunc()
 		loggerCleanFunc()
 	}, nil
-}
-
-// InitCaptcha 初始化图形验证码
-func InitCaptcha() {
-	cfg := config.C.Captcha
-	if cfg.Store == "redis" {
-		rc := config.C.Redis
-		captcha.SetCustomStore(store.NewRedisStore(&redis.Options{
-			Addr:     rc.Addr,
-			Password: rc.Password,
-			DB:       cfg.RedisDB,
-		}, captcha.Expiration, logger.StandardLogger(), cfg.RedisPrefix))
-	}
 }
 
 // InitMonitor 初始化服务监控

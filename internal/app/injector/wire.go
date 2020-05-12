@@ -7,7 +7,6 @@ import (
 	"github.com/LyricTian/gin-admin/v6/internal/app/api"
 	// "github.com/LyricTian/gin-admin/v6/internal/app/api/mock"
 	"github.com/LyricTian/gin-admin/v6/internal/app/bll/impl/bll"
-	"github.com/LyricTian/gin-admin/v6/internal/app/module/adapter"
 	"github.com/LyricTian/gin-admin/v6/internal/app/router"
 	"github.com/google/wire"
 
@@ -23,14 +22,11 @@ func BuildInjector() (*Injector, func(), error) {
 		gormModel.ModelSet,
 		// InitMongoDB,
 		// mongoModel.ModelSet,
-		InitAuth,
-		InitCasbin,
 		InitGinEngine,
 		bll.BllSet,
 		api.APISet,
 		// mock.MockSet,
 		router.RouterSet,
-		adapter.CasbinAdapterSet,
 		InjectorSet,
 	)
 	return new(Injector), nil, nil
