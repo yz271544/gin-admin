@@ -10,7 +10,7 @@ Package app 生成swagger文档
 package app
 
 // @title gin-admin
-// @version 6.2.0
+// @version 6.3.0
 // @description Basic development framework based on gin + gorm/mongo + wire.
 // @schemes http https
 // @basePath /
